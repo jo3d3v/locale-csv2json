@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <style>
+        .btn-file {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            background: white;
+            cursor: inherit;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h3>Übersetzungstransformator CSV2JSON und zurück</h3>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="locale-csv" class="col-sm-2 control-label">CSV Datei</label>
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <label class="input-group-btn">
+                    <span class="btn btn-default">
+                        Duchsuchen&hellip; <input type="file" id="locale-csv" style="display: none;" multiple>
+                    </span>
+                </label>
+                        <input type="text" class="form-control" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="local-json-base-path" class="col-sm-2 control-label">JSON Referenzdatei</label>
+                <div class="col-sm-6">
+                    <input id="local-json-base-path" class="form-control" type="text" placeholder="JSON Referenzdatei (muss bspw. mit -DE.json enden)">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-6">
+                    <button class="btn btn-default" type="submit" id="transform-trigger">Transformieren</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="bundle.js"></script>
+</body>
+
+</html>

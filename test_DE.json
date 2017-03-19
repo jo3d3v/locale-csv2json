@@ -1,0 +1,11 @@
+{
+    "test1": {
+        "key": "Hallo"
+    },
+    "test2": {
+        "key": {
+            "1": "Welt"
+        },
+        "key1": "Welt"
+    }
+}
