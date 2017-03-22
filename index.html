@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="csv2json" ng-strict-di="true">
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,35 +30,7 @@
 </head>
 
 <body>
-    <div class="container">
-        <h3>Übersetzungstransformator CSV2JSON und zurück</h3>
-        <form class="form-horizontal">
-            <div class="form-group">
-                <label for="locale-csv" class="col-sm-2 control-label">CSV Datei</label>
-                <div class="col-sm-6">
-                    <div class="input-group">
-                        <label class="input-group-btn">
-                    <span class="btn btn-default">
-                        Duchsuchen&hellip; <input type="file" id="locale-csv" style="display: none;" multiple>
-                    </span>
-                </label>
-                        <input type="text" class="form-control" readonly>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="local-json-base-path" class="col-sm-2 control-label">JSON Referenzdatei</label>
-                <div class="col-sm-6">
-                    <input id="local-json-base-path" class="form-control" type="text" placeholder="JSON Referenzdatei (muss bspw. mit -DE.json enden)">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-6">
-                    <button class="btn btn-default" type="submit" id="transform-trigger">Transformieren</button>
-                </div>
-            </div>
-        </form>
-    </div>
+    <csv-two-json></csv-two-json>
     <script src="bundle.js"></script>
 </body>
 

@@ -1,38 +1,30 @@
 import 'babel-polyfill';
-import jQuery from 'jquery';
+import './node_modules/angular/angular.js';
 import PapaParse from 'papaparse';
 import FileSaver from 'file-saverjs';
-import { isObject, isString, forEach, assign, defaults, keys } from 'lodash-es'
+import { isObject, isString, forEach, assign, defaults, keys } from 'lodash-es';
+
 
 const PARSE_CONFIG = {
     header: true,
 };
 
 class TranslationTransformator {
-    constructor() {
-        // set up bindings
-        this.fileHandle = jQuery('#locale-csv');
-        this.url = jQuery('#local-json-base-path');
-
-        jQuery('#transform-trigger').on('click', (event) => {
-            this.transform(event);
-        });
+    constructor($http, $q) {
+        this.__$http = $http;
+        this.__$q = $q;
     }
 
-    transform(event) {
-        if (event) {
-            event.preventDefault();
-        }
-
-        Promise.all([this.__buildReferenceModel(), this.__parseFile()]).then((results) => {
+    transform() {
+        this.__$q.all([this.__buildReferenceModel(), this.__parseFile()]).then((results) => {
             console.log(results);
         });
     }
 
     __parseFile() {
-        return new Promise((resolve, reject) => {
-            if (this.fileHandle.get(0).files.length > 0) {
-                PapaParse.parse(this.fileHandle.get(0).files[0], defaults({
+        return this.__$q((resolve, reject) => {
+            if (this.csvFile) {
+                PapaParse.parse(this.csvFile, defaults({
                     complete: resolve
                 }, PARSE_CONFIG));
             } else {
@@ -42,9 +34,9 @@ class TranslationTransformator {
     }
 
     __buildReferenceModel() {
-        return new Promise((resolve, reject) => {
-            jQuery.getJSON(this.url.val(), (data) => {
-                resolve(this.__traverseJSON(data));
+        return this.__$q((resolve, reject) => {
+            this.__$http({ method: 'GET', url: this.url }).then((response) => {
+                resolve(this.__traverseJSON(response.data));
             });
         });
     }
@@ -61,15 +53,26 @@ class TranslationTransformator {
         });
         return obj;
     }
-
-    run() {
-    }
-
-    static boot() {
-        new TranslationTransformator().run();
-    }
 }
+TranslationTransformator.$inject = ['$http', '$q']
 
-jQuery(function () {
-    TranslationTransformator.boot();
-});
+angular.module('csv2json', [])
+    .component('csvTwoJson', {
+        controller: TranslationTransformator,
+        controllerAs: 'transform',
+        templateUrl: 'csv2Json.html'
+    })
+    .directive('file', [function () {
+        return {
+            scope: {
+                file: "=file"
+            },
+            link: function ($scope, $element) {
+                $element.bind('change', function (changeEvent) {
+                    $scope.$applyAsync(function () {
+                        $scope.file = changeEvent.target.files[0];
+                    });
+                });
+            }
+        }
+    }]);

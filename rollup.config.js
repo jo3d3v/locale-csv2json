@@ -1,7 +1,6 @@
 import resolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
-import uglify from 'rollup-plugin-uglify';
 
 export default {
     entry: 'index.js',
@@ -16,11 +15,10 @@ export default {
             include: 'node_modules/**',
             sourceMap: true,
             namedExports: {
-                jquery: ['jQuery'],
                 'file-saverjs': ['FileSaver'],
                 papaparse: ['PapaParse']
             },
-            exclude: ['lodash-es']
+            exclude: ['lodash-es', 'node_modules/angular/**']
         }),
         babel({
             exclude: 'node_modules/**'
