@@ -37,6 +37,11 @@ class TranslationTransformator {
         return this.__$q((resolve, reject) => {
             this.__$http({ method: 'GET', url: this.url }).then((response) => {
                 resolve(this.__traverseJSON(response.data));
+            }).catch(() => {
+                this.form.url.$setValidity('notFound', false);
+                this.form.url.$viewChangeListeners.push(() => {
+                    this.form.url.$setValidity('notFound', true);
+                });
             });
         });
     }

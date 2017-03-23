@@ -4,27 +4,31 @@
         <div class="form-group">
             <label for="locale-csv" class="col-sm-2 control-label">CSV Datei</label>
             <div class="col-sm-6">
-                <div class="input-group">
-                    <label class="input-group-btn">
-                    <span class="btn btn-default">
-                        Duchsuchen&hellip; <input type="file" id="locale-csv" style="display: none;" 
-                                                  file="transform.csvFile">
-                    </span>
-                </label>
+                <div class="input-group" ng-class="{'has-error': transform.invalidCSV}">
+                    <label class="input-group-btn" for="locale-csv">
+                        <span class="btn btn-default">
+                            Duchsuchen&hellip; <input type="file" id="locale-csv" style="display: none;" 
+                                                    file="transform.csvFile">
+                        </span>
+                    </label>
+                    <span class="help-block" ng-if="transform.invalidCSV">Bitte geben sie eine gültige CSV-Datei ein.</span>
                     <input type="text" class="form-control" ng-value="transform.csvFile.name" placeholder="CSV-Datei auswählen" readonly>
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="local-json-base-path" class="col-sm-2 control-label">JSON Referenzdatei</label>
+        <div class="form-group" ng-class="{'has-error': transform.form.url.$invalid && transform.form.url.$dirty}">
+            <label for="url" class="col-sm-2 control-label">JSON Referenzdatei</label>
             <div class="col-sm-6">
-                <input id="local-json-base-path" required class="form-control" type="text" ng-model="transform.url" placeholder="JSON Referenz (endet bspw. mit -DE.json)">
+                <input id="url" name="url" required class="form-control" type="text" ng-model="transform.url" placeholder="JSON Referenz (endet bspw. mit -DE.json)">
             </div>
+            <span class="help-block" ng-if="transform.form.url.$invalid && transform.form.url.$dirty">Bitte geben sie eine gültig URL an.</span>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-6 button-group inline">
-                <button class="btn btn-default" type="button" id="transform-trigger" ng-click="transform.transform()">Transformieren</button>
-                <button class="btn btn-default" type="button" id="transform-trigger" ng-click="transform.export()">Export Referenz-CSV</button>
+                <button class="btn btn-default" type="button" ng-disabled="transform.form.$pristine || transform.form.$invalid || !transform.csvFile"
+                        id="transform-trigger" ng-click="transform.transform()">Transformieren</button>
+                <button class="btn btn-default" type="button" ng-disabled="transform.form.$pristine || transform.form.$invalid" 
+                        id="export-trigger" ng-click="transform.export()">Export Referenz-CSV</button>
             </div>
         </div>
     </form>

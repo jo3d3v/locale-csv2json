@@ -52991,6 +52991,11 @@ var TranslationTransformator = function () {
             return this.__$q(function (resolve, reject$$1) {
                 _this2.__$http({ method: 'GET', url: _this2.url }).then(function (response) {
                     resolve(_this2.__traverseJSON(response.data));
+                }).catch(function () {
+                    _this2.form.url.$setValidity('notFound', false);
+                    _this2.form.url.$viewChangeListeners.push(function () {
+                        _this2.form.url.$setValidity('notFound', true);
+                    });
                 });
             });
         }
