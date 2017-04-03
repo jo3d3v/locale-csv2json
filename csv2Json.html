@@ -19,17 +19,24 @@
         <div class="form-group" ng-class="{'has-error': transform.form.url.$invalid && transform.form.url.$dirty}">
             <label for="url" class="col-sm-2 control-label">JSON Referenzdatei</label>
             <div class="col-sm-6">
-                <input id="url" name="url" required class="form-control" type="text" ng-model="transform.url" placeholder="JSON Referenz (endet bspw. mit -DE.json)">
+                <input id="url" name="url" ng-pattern="transform.jsonFilePattern" required class="form-control" type="text" ng-model="transform.url"
+                    placeholder="JSON Referenz (endet bspw. mit -DE.json)">
             </div>
             <span class="help-block" ng-if="transform.form.url.$invalid && transform.form.url.$dirty">Bitte geben sie eine gültig URL an.</span>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-6 button-group inline">
                 <button class="btn btn-default" type="button" ng-disabled="transform.form.$pristine || transform.form.$invalid || !transform.csvFile"
-                        id="transform-trigger" ng-click="transform.transform()">Transformieren</button>
-                <button class="btn btn-default" type="button" ng-disabled="transform.form.$pristine || transform.form.$invalid" 
-                        id="export-trigger" ng-click="transform.export()">Export Referenz-CSV</button>
+                    id="transform-trigger" ng-click="transform.transform()">Transformieren</button>
+                <button class="btn btn-default" type="button" ng-disabled="transform.form.$pristine || transform.form.$invalid" id="export-trigger"
+                    ng-click="transform.export()">Export Referenz-CSV</button>
             </div>
+        </div>
+        <div class="col-sm-offset-2 col-sm-6" ng-if="transform.missingTranslations">
+            <h4>Übersetzungen fehlen für (enthalten in Referenzdatei):</h4>
+            <ul>
+                <li ng-repeat="missing in transform.missingTranslations">{{::missing}}</li>
+            </ul>
         </div>
     </form>
 </div>
