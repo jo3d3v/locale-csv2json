@@ -87,7 +87,7 @@ class TranslationTransformator {
                     memo.push([key, value])
                     return memo;
                 }, [])
-            }, );
+            }, UNPARSE_CONFIG);
             FileSaver(new Blob([csv], { type: 'text/csv' }), 'translations.csv');
         });
     }

@@ -70441,6 +70441,13 @@ var createClass = function () {
 var PARSE_CONFIG = {
     header: true
 };
+var UNPARSE_CONFIG = {
+    quotes: true,
+    quoteChar: '"',
+    delimiter: ';',
+    header: true,
+    newline: "\r\n"
+};
 var JSON_FILE_REGEX = /.*[-_]([A-Z]{2})\.json$/;
 
 var TranslationTransformator = function () {
@@ -70521,7 +70528,7 @@ var TranslationTransformator = function () {
                         memo.push([key, value$$1]);
                         return memo;
                     }, [])
-                });
+                }, UNPARSE_CONFIG);
                 FileSaver(new Blob([csv], { type: 'text/csv' }), 'translations.csv');
             });
         }
