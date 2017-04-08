@@ -70451,12 +70451,11 @@ var UNPARSE_CONFIG = {
 var JSON_FILE_REGEX = /.*[-_]([A-Z]{2})\.json$/;
 
 var TranslationTransformator = function () {
-    function TranslationTransformator($http, $q, $location, $timeout) {
+    function TranslationTransformator($http, $q, $timeout) {
         classCallCheck(this, TranslationTransformator);
 
         this.__$http = $http;
         this.__$q = $q;
-        this.__$location = $location;
         this.__$timeout = $timeout;
         this.jsonFilePattern = JSON_FILE_REGEX;
     }
@@ -70466,7 +70465,7 @@ var TranslationTransformator = function () {
         value: function $onInit() {
             var _this = this;
 
-            this.url = this.__$location.search().url;
+            this.url = this.__getUrl();
             this.__$timeout(function () {
                 _this.__extractUrlAndCode();
                 if (_this.__code && _this.form) {
@@ -70598,11 +70597,20 @@ var TranslationTransformator = function () {
             });
             return obj;
         }
+    }, {
+        key: '__getUrl',
+        value: function __getUrl() {
+            var url = window.location.href;
+            var regex = new RegExp("[?&]url(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results || !results[2]) return null;
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
     }]);
     return TranslationTransformator;
 }();
 
-TranslationTransformator.$inject = ['$http', '$q', '$location', '$timeout'];
+TranslationTransformator.$inject = ['$http', '$q', '$timeout'];
 
 angular.module('csv2json', []).component('csvTwoJson', {
     controller: TranslationTransformator,
