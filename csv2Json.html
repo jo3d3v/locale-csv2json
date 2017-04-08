@@ -32,8 +32,8 @@
                     ng-click="transform.export()">Export Referenz-CSV</button>
             </div>
         </div>
-        <div class="col-sm-offset-2 col-sm-6" ng-if="transform.missingTranslations">
-            <h4>Übersetzungen fehlen für (enthalten in Referenzdatei):</h4>
+        <div class="col-sm-offset-2 col-sm-6" ng-if="transform.missingTranslations && transform.missingTranslations.length > 0">
+            <label>Übersetzungen fehlen für (enthalten in Referenzdatei):</label>
             <ul>
                 <li ng-repeat="missing in transform.missingTranslations">{{::missing}}</li>
             </ul>

@@ -59016,6 +59016,8 @@ if (symIterator$1) {
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  */
 
+var template$2 = "<div class=\"container\">\n    <h3 class=\"col-sm-offset-2\">Übersetzungsdateien transformieren: CSV2JSON</h3>\n    <form class=\"form-horizontal\" name=\"transform.form\">\n        <div class=\"form-group\">\n            <label for=\"locale-csv\" class=\"col-sm-2 control-label\">CSV Datei</label>\n            <div class=\"col-sm-6\">\n                <div class=\"input-group\" ng-class=\"{'has-error': transform.invalidCSV}\">\n                    <label class=\"input-group-btn\" for=\"locale-csv\">\n                        <span class=\"btn btn-default\">\n                            Duchsuchen&hellip; <input type=\"file\" id=\"locale-csv\" style=\"display: none\" file=\"transform.csvFile\">\n                        </span>\n                    </label>\n                    <span class=\"help-block\" ng-if=\"transform.invalidCSV\">Bitte geben sie eine gültige CSV-Datei ein.</span>\n                    <input type=\"text\" class=\"form-control\" ng-value=\"transform.csvFile.name\" placeholder=\"CSV-Datei auswählen\" readonly=\"readonly\">\n                </div>\n            </div>\n        </div>\n        <div class=\"form-group\" ng-class=\"{'has-error': transform.form.url.$invalid && transform.form.url.$dirty}\">\n            <label for=\"url\" class=\"col-sm-2 control-label\">JSON Referenzdatei</label>\n            <div class=\"col-sm-6\">\n                <input id=\"url\" name=\"url\" ng-pattern=\"transform.jsonFilePattern\" required class=\"form-control\" type=\"text\" ng-model=\"transform.url\" placeholder=\"JSON Referenz (endet bspw. mit -DE.json)\">\n            </div>\n            <span class=\"help-block\" ng-if=\"transform.form.url.$invalid && transform.form.url.$dirty\">Bitte geben sie eine gültig URL an.</span>\n        </div>\n        <div class=\"form-group\">\n            <div class=\"col-sm-offset-2 col-sm-6 button-group inline\">\n                <button class=\"btn btn-default\" type=\"button\" ng-disabled=\"transform.form.$pristine || transform.form.$invalid || !transform.csvFile\" id=\"transform-trigger\" ng-click=\"transform.transform()\">Transformieren</button>\n                <button class=\"btn btn-default\" type=\"button\" ng-disabled=\"transform.form.$pristine || transform.form.$invalid\" id=\"export-trigger\" ng-click=\"transform.export()\">Export Referenz-CSV</button>\n            </div>\n        </div>\n        <div class=\"col-sm-offset-2 col-sm-6\" ng-if=\"transform.missingTranslations && transform.missingTranslations.length > 0\">\n            <label>Übersetzungen fehlen für (enthalten in Referenzdatei):</label>\n            <ul>\n                <li ng-repeat=\"missing in transform.missingTranslations\">{{::missing}}</li>\n            </ul>\n        </div>\n    </form>\n</div>";
+
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -59195,7 +59197,7 @@ TranslationTransformator.$inject = ['$http', '$q', '$location', '$timeout'];
 angular.module('csv2json', []).component('csvTwoJson', {
     controller: TranslationTransformator,
     controllerAs: 'transform',
-    templateUrl: 'csv2Json.html'
+    template: template$2
 }).directive('file', [function () {
     return {
         scope: {

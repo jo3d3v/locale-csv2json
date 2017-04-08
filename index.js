@@ -3,10 +3,18 @@ import './node_modules/angular/angular.js';
 import PapaParse from 'papaparse';
 import FileSaver from 'file-saverjs';
 import { isObject, isString, forEach, assign, defaults, keys, reduce, set, has } from 'lodash-es';
+import template from './csv2Json.html';
 
 
 const PARSE_CONFIG = {
     header: true,
+};
+const UNPARSE_CONFIG = {
+	quotes: true,
+	quoteChar: '"',
+	delimiter: ';',
+	header: true,
+	newline: "\r\n"
 };
 const JSON_FILE_REGEX = /.*[-_]([A-Z]{2})\.json$/;
 
@@ -74,7 +82,7 @@ class TranslationTransformator {
                     memo.push([key, value])
                     return memo;
                 }, [])
-            });
+            }, );
             FileSaver(new Blob([csv], { type: 'text/csv' }), 'translations.csv');
         });
     }
@@ -136,7 +144,7 @@ angular.module('csv2json', [])
     .component('csvTwoJson', {
         controller: TranslationTransformator,
         controllerAs: 'transform',
-        templateUrl: 'csv2Json.html'
+        template: template
     })
     .directive('file', [function () {
         return {
