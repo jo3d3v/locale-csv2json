@@ -2,6 +2,7 @@ import 'babel-polyfill';
 import './node_modules/angular/angular.js';
 import PapaParse from 'papaparse';
 import FileSaver from 'file-saverjs';
+import JSZip from './node_modules/jszip/dist/jszip.js';
 import { isObject, isString, forEach, assign, defaults, keys, reduce, set, has } from 'lodash-es';
 import template from './csv2Json.html';
 
@@ -10,11 +11,11 @@ const PARSE_CONFIG = {
     header: true,
 };
 const UNPARSE_CONFIG = {
-	quotes: true,
-	quoteChar: '"',
-	delimiter: ';',
-	header: true,
-	newline: "\r\n"
+    quotes: true,
+    quoteChar: '"',
+    delimiter: ';',
+    header: true,
+    newline: "\r\n"
 };
 const JSON_FILE_REGEX = /.*[-_]([A-Z]{2})\.json$/;
 
@@ -66,8 +67,12 @@ class TranslationTransformator {
                         }
                     });
                     this.missingTranslations = keys(reference);
+                    let zip = new JSZip();
                     forEach(fileMap, function (data, lang) {
-                        FileSaver(new Blob([JSON.stringify(data)], { type: 'application/json' }), 'locale-' + lang.toUpperCase() + '.json');
+                        zip.file('locale-' + lang.toUpperCase() + '.json', JSON.stringify(data));
+                    });
+                    zip.generateAsync({type:"blob"}).then(function(content) {
+                        FileSaver(content, 'locales.zip');
                     });
                 }
             });
