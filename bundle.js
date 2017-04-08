@@ -70522,16 +70522,18 @@ var TranslationTransformator = function () {
 
             this.missingTranslations = null;
             this.__extractUrlAndCode();
-            this.__buildReferenceModel().then(function (model) {
-                var csv = papaparse.unparse({
-                    fields: ['key', _this3.__code],
-                    data: reduce(model, function (memo, value$$1, key) {
-                        memo.push([key, value$$1]);
-                        return memo;
-                    }, [])
-                }, UNPARSE_CONFIG);
-                FileSaver(new Blob([csv], { type: 'text/csv' }), 'translations.csv');
-            });
+            if (this.__code) {
+                this.__buildReferenceModel().then(function (model) {
+                    var csv = papaparse.unparse({
+                        fields: ['key', _this3.__code],
+                        data: reduce(model, function (memo, value$$1, key) {
+                            memo.push([key, value$$1]);
+                            return memo;
+                        }, [])
+                    }, UNPARSE_CONFIG);
+                    FileSaver(new Blob([csv], { type: 'text/csv' }), 'translations.csv');
+                });
+            }
         }
     }, {
         key: '__extractUrlAndCode',

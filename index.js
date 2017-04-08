@@ -71,7 +71,7 @@ class TranslationTransformator {
                     forEach(fileMap, function (data, lang) {
                         zip.file('locale-' + lang.toUpperCase() + '.json', JSON.stringify(data));
                     });
-                    zip.generateAsync({type:"blob"}).then(function(content) {
+                    zip.generateAsync({ type: "blob" }).then(function (content) {
                         FileSaver(content, 'locales.zip');
                     });
                 }
@@ -81,16 +81,18 @@ class TranslationTransformator {
     export() {
         this.missingTranslations = null;
         this.__extractUrlAndCode();
-        this.__buildReferenceModel().then((model) => {
-            let csv = PapaParse.unparse({
-                fields: ['key', this.__code],
-                data: reduce(model, function (memo, value, key) {
-                    memo.push([key, value])
-                    return memo;
-                }, [])
-            }, UNPARSE_CONFIG);
-            FileSaver(new Blob([csv], { type: 'text/csv' }), 'translations.csv');
-        });
+        if (this.__code) {
+            this.__buildReferenceModel().then((model) => {
+                let csv = PapaParse.unparse({
+                    fields: ['key', this.__code],
+                    data: reduce(model, function (memo, value, key) {
+                        memo.push([key, value])
+                        return memo;
+                    }, [])
+                }, UNPARSE_CONFIG);
+                FileSaver(new Blob([csv], { type: 'text/csv' }), 'translations.csv');
+            });
+        }
     }
 
     __extractUrlAndCode() {
