@@ -80,6 +80,7 @@ class TranslationTransformator {
 
     export() {
         this.missingTranslations = null;
+        this.__extractUrlAndCode();
         this.__buildReferenceModel().then((model) => {
             let csv = PapaParse.unparse({
                 fields: ['key', this.__code],

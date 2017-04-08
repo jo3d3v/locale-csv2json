@@ -70521,6 +70521,7 @@ var TranslationTransformator = function () {
             var _this3 = this;
 
             this.missingTranslations = null;
+            this.__extractUrlAndCode();
             this.__buildReferenceModel().then(function (model) {
                 var csv = papaparse.unparse({
                     fields: ['key', _this3.__code],
